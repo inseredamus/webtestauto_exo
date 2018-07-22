@@ -1,31 +1,28 @@
 package pages;
 
 import enums.Page;
-import enums.Url;
+import enums.User;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.WaitClass;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static utils.ObjectMap.getLocator;
 
 public class GeneralPage {
     protected final WebDriver driver;
-    WebDriverWait webDriverWait;
     WaitClass wait;
-    Logger logger = Logger.getLogger(GeneralPage.class);
+    private Logger logger = Logger.getLogger(GeneralPage.class);
 
     public GeneralPage(WebDriver driver) {
         this.driver = driver;
-        webDriverWait = new WebDriverWait(driver, 6);
+        wait = new WaitClass(driver);
     }
 
     public boolean isElementPresent(By locatorKey) {
@@ -52,20 +49,18 @@ public class GeneralPage {
 
 
     public boolean isRightPageOpened(Page page) throws NoSuchElementException {
+        By heading = getLocator("all_pages.page_heading.text");
+        By body = getLocator("all_pages.page_body.id");
         //two checks : bodyId & HeadingText of the page
-        webDriverWait
-                .ignoring(NoSuchElementException.class)
-                .until(ExpectedConditions.visibilityOfElementLocated(By.tagName("body")));
-        return driver.findElement(By.cssSelector("body[class*=lang]")).getAttribute("id").equals(page.getBodyId()) &&
-                driver.findElement(By.cssSelector("#page h1")).getText().equals(page.getHeadingText());
-    }
+        int count = 0;
+        boolean temp = false;
+        while(count < 7 && !temp) {
+            temp = driver.findElement(body).getAttribute("id").equals(page.getBodyId()) && driver.findElement(heading).getText().equals(page.getHeadingText());
+            this.waitAwhile(1);
+            count++;
+        }
+        return temp;
 
-    public void selectRandomRadioButton(By radioButton){
-        driver.findElement(radioButton).click();
-    }
-
-    public boolean isCheckBoxSelected(By checkBox){
-        return driver.findElement(checkBox).isSelected();
     }
 
     public void selectOption(By element, String option) {
@@ -75,30 +70,6 @@ public class GeneralPage {
         }catch(Exception e){
             select.selectByVisibleText(option);
         }
-    }
-
-    public int getNumberOfSelectOptions(By selectOptions) {
-        return driver.findElements(selectOptions).size();
-    }
-
-    public int getNumberOfElements(By element){
-        return driver.findElements(element).size();
-    }
-
-    public void clearTextField(By element){
-        driver.findElement(element).clear();
-    }
-
-    public String getPageIdentifier(){
-        wait.waitForElement(By.tagName("body"), 5);
-        String bodyClassAttribute = driver.findElement(By.tagName("body")).getAttribute("class");
-        Pattern nodePattern = Pattern.compile("\\s[A-Z0-9_]+");
-        Matcher matcher = nodePattern.matcher(bodyClassAttribute);
-
-        if (matcher.find()){
-            return matcher.group().trim();
-        }
-        return null;
     }
 
     public void waitAwhile() {
@@ -141,9 +112,21 @@ public class GeneralPage {
         return list;
     }
 
-    public void openUrl(Url url){
-        String temp = url.getValue();
+    public String openUrl(Page page){
+        String temp = page.getUrl();
         driver.get(temp);
-        logger.info("Open URL = "+temp);
+        return temp;
+    }
+
+    public String openUrl(Page page,String email){
+        String temp = page.getUrl(email);
+        driver.get(temp);
+        return temp;
+    }
+
+    public String openUrl(Page page, User user){
+        String temp = page.getUrl(user);
+        driver.get(temp);
+        return temp;
     }
 }

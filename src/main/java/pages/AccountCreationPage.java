@@ -107,7 +107,7 @@ public class AccountCreationPage extends GeneralPage {
     }
 
     public void typeAddress2(String addr2){
-        wait.waitForElement(addr_addr2,5);
+        wait.waitForElement(addr_addr2,1);
         driver.findElement(addr_addr2).sendKeys(addr2);
     }
 

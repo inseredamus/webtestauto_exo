@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
+
 public class CustomAssert {
     private static Logger logger = Logger.getLogger(CustomAssert.class);
     private static String root = "||||| ASSERT : ";
@@ -16,14 +17,14 @@ public class CustomAssert {
 
     public static void assertEqual(String comparedObject, Object actual, Object expected) {
         if(!equalsRegardingNull(expected, actual)) {
-            logger.error(root+expected+" (EXPECTED) IS NOT EQUAL TO "+actual+" (ACTUAL)");
+            logger.error(root+comparedObject+" "+expected+" (EXPECTED) IS NOT EQUAL TO "+actual+" (ACTUAL)");
             if(expected instanceof String && actual instanceof String) {
                 throw new AssertionError(String.format("Expected %s [%s], but [%s] found", comparedObject, expected, actual));
             } else {
                 throw new AssertionError(String.format("Expected %s [%s], but [%s] found", comparedObject, expected, actual));
             }
         }else{
-            logger.info(root+comparedObject+" AS EXPECTED");
+            logger.info(root+comparedObject+" is "+expected+" AS EXPECTED");
         }
     }
 
@@ -64,16 +65,6 @@ public class CustomAssert {
             throw new AssertionError(String.format("EXPECTED -> '%s', but it's incorrect (result is '%s')", comparedObject, actual));
         }else{
             logger.info(root+comparedObject+" AS EXPECTED");
-        }
-    }
-
-    //for hascrashed, use the method hasCrashed in generalPageService
-    public static void assertCrash(String describedAction, boolean hascrashed) {
-        if(hascrashed) {
-            logger.error(root+"The App Crashed by "+describedAction);
-            throw new AssertionError("!!!!!APP CRASHED!!!!!, by "+describedAction);
-        }else{
-            logger.info(root+"By "+describedAction+", the app is not crashed AS EXPECTED");
         }
     }
 

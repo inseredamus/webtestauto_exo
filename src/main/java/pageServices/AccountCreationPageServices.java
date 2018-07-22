@@ -1,6 +1,9 @@
 package pageServices;
 
+import enums.Gender;
+import enums.User;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.WebDriver;
 import pages.AccountCreationPage;
 
@@ -9,102 +12,145 @@ public class AccountCreationPageServices extends GeneralPageServices {
     private Logger logger = Logger.getLogger(AccountCreationPageServices.class);
     public AccountCreationPageServices(WebDriver driver) {
         super(driver);
-        location = "ACCOUNT_CREATION_PAGE: ";
+        location = "ACCOUNT CREATION PAGE";
         logger.info("@ "+location);
         accountCreationPage = new AccountCreationPage(driver);
     }
 
-    public void clickMaleRadioButton() {
-        logger.info(locationSymbol+"Click on Radio Button Gender Male");
-        accountCreationPage.clickMaleRadioButton();
+    public void fillYourPersonalInformation(User user){
+        logger.info(locationSymbol+"# Fill Your Personal Information form =>");
+        clickGenderRadioButton(user.getGender());
+        typePersoFirstname(user.getFirstname());
+        typePersoLastname(user.getLastname());
+        typePersoPassword(user.getPassword());
+        selectBirthday(user.getBday_day(),user.getBday_month(),user.getBday_year());
     }
 
-    public void clickFemaleRadioButton() {
-        logger.info(locationSymbol+"Click on Radio Button Gender Female");
-        accountCreationPage.clickFemaleRadioButton();
+    public void fillYourAddress(User user){
+        logger.info(locationSymbol+"# Fill Your Address form =>");
+        typeAddressFirstname(user.getFirstname());
+        typeAddressLastname(user.getLastname());
+        typeAddressCompany(user.getCompany());
+        typeAddress1(user.getAddr1());
+        typeAddress2(user.getAddr2());
+        typeCity(user.getCity());
+        selectState(user.getState());
+        typePostcode(user.getPostcode());
+        //selectCountry(user.getCountry()); will be automatically United States.
+        typeAdditionalInto(user.getOther());
+        typePhone(user.getPhone());
+        typeMobilePhone(user.getMobilePhone());
+        typeAlias(user.getAlias());
     }
 
-    public void typePersoFirstname(String firstname) {
+    public void clickRegisterButton() {
+        logger.info(locationSymbol+"Click on the register submit button");
+        accountCreationPage.clickRegisterButton();
+    }
+
+    private void clickGenderRadioButton(Gender gender) {
+        logger.info(locationSymbol+"Click on Radio Button Gender "+gender.name().toLowerCase());
+        if(gender == Gender.MALE){
+            accountCreationPage.clickMaleRadioButton();
+        }else{
+            accountCreationPage.clickFemaleRadioButton();
+        }
+    }
+
+    private void typePersoFirstname(String firstname) {
+        logger.info(locationSymbol+"Type the firstname : "+firstname+" in personal info");
         accountCreationPage.typePersoFirstname(firstname);
     }
 
-    public void typePersoLastname(String lastname) {
+    private void typePersoLastname(String lastname) {
+        logger.info(locationSymbol+"Type the lastname : "+lastname+" in personal info");
         accountCreationPage.typePersoLastname(lastname);
     }
 
     public void typePersoEmail(String email) {
+        logger.info(locationSymbol+"Type the email : "+email+" in personal info");
         accountCreationPage.typePersoEmail(email);
     }
 
-    public void typePersoPassword(String password) {
+    private void typePersoPassword(String password) {
+        logger.info(locationSymbol+"Type the password : "+password.substring(0,2)+"***** in personal info");
         accountCreationPage.typePersoPassword(password);
     }
 
-    public void selectBirthdayDay(String day) {
+    private void selectBirthday(String day, String month, String year){
+        logger.info(locationSymbol+"Select the birthday : "+day+"/"+month+"/"+year+" in personal info");
         accountCreationPage.selectBirthdayDay(day);
-    }
-
-    public void selectBirthdayMonth(String month) {
         accountCreationPage.selectBirthdayMonth(month);
-    }
-
-    public void selectBirthdayYear(String year) {
         accountCreationPage.selectBirthdayYear(year);
     }
 
-    public void typeAddressFirstname(String firstname) {
+    private void typeAddressFirstname(String firstname) {
+        logger.info(locationSymbol+"Type the firstname : "+firstname+" in address");
         accountCreationPage.typeAddressFirstname(firstname);
     }
 
-    public void typeAddressLastname(String lastname) {
+    private void typeAddressLastname(String lastname) {
+        logger.info(locationSymbol+"Type the lastname :  "+lastname+" in address");
         accountCreationPage.typeAddressLastname(lastname);
     }
 
-    public void typeAddressCompany(String company) {
+    private void typeAddressCompany(String company) {
+        logger.info(locationSymbol+"Type the company : "+company+" in address");
         accountCreationPage.typeAddressCompany(company);
     }
 
-    public void typeAddress1(String addr1) {
+    private void typeAddress1(String addr1) {
+        logger.info(locationSymbol+"Type the address part 1 : "+addr1+" in address");
         accountCreationPage.typeAddress1(addr1);
     }
 
-    public void typeAddress2(String addr2) {
-        accountCreationPage.typeAddress2(addr2);
+    private void typeAddress2(String addr2) {
+        logger.info(locationSymbol+"Type the address part 2 : "+addr2+" in address");
+        try{
+            accountCreationPage.typeAddress2(addr2);
+        }catch(ElementNotVisibleException e){
+            logger.warn("##### : The element address line 2 is not visible");
+        }
     }
 
-    public void typeCity(String city) {
+    private void typeCity(String city) {
+        logger.info(locationSymbol+"Type the city : "+city+" in address");
         accountCreationPage.typeCity(city);
     }
 
-    public void selectState(String state) {
+    private void selectState(String state) {
+        logger.info(locationSymbol+"Select the state : "+state+" in address");
         accountCreationPage.selectState(state);
     }
 
-    public void typePostcode(String postcode) {
+    private void typePostcode(String postcode) {
+        logger.info(locationSymbol+"Type the postcode : "+postcode+" in address");
         accountCreationPage.typePostcode(postcode);
     }
 
     public void selectCountry(String country) {
+        logger.info(locationSymbol+"Select the country : "+country+" in address");
         accountCreationPage.selectCountry(country);
     }
 
-    public void typePhone(String phone) {
+    private void typePhone(String phone) {
+        logger.info(locationSymbol+"Type the phone : "+phone+" in address");
         accountCreationPage.typePhone(phone);
     }
 
-    public void typeMobilePhone(String mobilePhone) {
+    private void typeMobilePhone(String mobilePhone) {
+        logger.info(locationSymbol+"Type the mobile phone : "+mobilePhone+" in address");
         accountCreationPage.typeMobilePhone(mobilePhone);
     }
 
-    public void typeAdditionalInto(String additionalInfo) {
+    private void typeAdditionalInto(String additionalInfo) {
+        logger.info(locationSymbol+"Type the additional info : "+additionalInfo+" in address");
         accountCreationPage.typeAdditionalInto(additionalInfo);
     }
 
-    public void typeAlias(String alias) {
+    private void typeAlias(String alias) {
+        logger.info(locationSymbol+"Type the alias : "+alias+" in address");
         accountCreationPage.typeAlias(alias);
     }
 
-    public void clickRegisterButton() {
-        accountCreationPage.clickRegisterButton();
-    }
 }

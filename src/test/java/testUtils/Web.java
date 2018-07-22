@@ -1,9 +1,7 @@
 package testUtils;
 
 import org.openqa.selenium.WebDriver;
-import pageServices.AccountCreationPageServices;
-import pageServices.MyAccountPageServices;
-import pageServices.StartPageServices;
+import pageServices.*;
 
 public class Web {
     private WebDriver driver;
@@ -12,15 +10,46 @@ public class Web {
         this.driver = driver;
     }
 
+    public GeneralPageServices net(){
+        return new GeneralPageServices(driver);
+    }
+
     public AccountCreationPageServices accountCreation() {
         return new AccountCreationPageServices(driver);
     }
 
-    public MyAccountPageServices myAccount(){
-        return new MyAccountPageServices(driver);
+    public AuthenticationPageServices authentication(){
+        return new AuthenticationPageServices(driver);
     }
 
     public StartPageServices startPage(){
         return new StartPageServices(driver);
+    }
+
+    public MyAccountPageServices myAccount() { return new MyAccountPageServices(driver); }
+
+    public ShoppingCartSummaryPageServices shoppingCartSummary(){
+        return new ShoppingCartSummaryPageServices(driver);
+    }
+
+    public AddressesPageServices addresses() {
+        return new AddressesPageServices(driver);
+    }
+
+    public ShippingPageServices shipping(){
+        return new ShippingPageServices(driver);
+    }
+
+    public PaymentMethodPageServices payment(){ return new PaymentMethodPageServices(driver); }
+
+    public OrderSummaryPageServices orderSummary(){
+        return new OrderSummaryPageServices(driver);
+    }
+
+    public OrderConfirmationPageServices orderConfirmation(){
+        return new OrderConfirmationPageServices(driver);
+    }
+
+    public LayerCartModuleServices layerCart() { return new LayerCartModuleServices(driver);
     }
 }

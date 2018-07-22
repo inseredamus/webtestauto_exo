@@ -7,7 +7,7 @@ import static utils.ObjectMap.getLocator;
 
 public class StartPage extends GeneralPage {
     private By signinLink;
-    public StartPage(WebDriver driver) throws Exception {
+    public StartPage(WebDriver driver) {
         super(driver);
         initStartPageElements();
         wait.waitForElement(signinLink,5);
@@ -18,6 +18,8 @@ public class StartPage extends GeneralPage {
     }
 
     public void clickOnSigninLink(){
+        wait.waitForElement(signinLink,5);
         driver.findElement(signinLink).click();
     }
 }
+

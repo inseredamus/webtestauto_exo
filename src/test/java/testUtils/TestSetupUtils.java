@@ -1,11 +1,8 @@
 package testUtils;
 
-import enums.Url;
+import enums.Browser;
 import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.AssumptionViolatedException;
-import org.junit.Before;
-import org.junit.Rule;
+import org.junit.*;
 import org.junit.rules.TestName;
 import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
@@ -16,7 +13,7 @@ import org.junit.runners.model.Statement;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import utils.LoadProperties;
 
 import java.io.IOException;
@@ -26,20 +23,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static enums.Browser.CHROME;
+import static enums.Browser.FIREFOX;
 import static org.junit.Assert.fail;
 
 public class TestSetupUtils {
-
-    protected WebDriver wd;
     private static Logger logger;
     protected Logger testLogger = Logger.getLogger(TestSetupUtils.class);
     protected String locationSymbolTest = "##### : ";
     private static String testInfo;
     private static int count = 0;
-    protected WebDriver driver;
-    protected WebDriverWait wait;
-    protected LoadProperties loadApplication = new LoadProperties("application.properties");
-    protected String urlToTest =  loadApplication.getPropValue("automation.practice.url");
+    protected static WebDriver driver;
+    protected static Web web;
+    private static Browser browser = Browser.valueOf(new LoadProperties("config.properties").getPropValue("browser").toUpperCase());
 
     @Rule
     public TestName name = new TestName();
@@ -47,6 +43,8 @@ public class TestSetupUtils {
     @Rule
     public Timeout timeout = new Timeout(5, TimeUnit.MINUTES);
 
+    @Rule
+    public ScreenShotOnFailure failure = new ScreenShotOnFailure(driver);
 
     @Rule
     public TestRule watchman = new TestWatcher() {
@@ -60,7 +58,7 @@ public class TestSetupUtils {
                         testInfo = description.toString();
                         base.evaluate();
                         succeededQuietly(description, errors);
-                    } catch (NoSuchElementException e) {
+                    }catch (NoSuchElementException e) {
                         System.out.println(e);
                     }catch (InterruptedException e) {
                         fail("Some Thread interrupted: "+ stackToString(e));
@@ -119,13 +117,31 @@ public class TestSetupUtils {
     };
 
 
+    @BeforeClass
+    public static void clean(){
+        Screenshot.clearScreenshotDirectory();
+        if (driver == null) {
+            if(browser == FIREFOX){
+                System.setProperty("webdriver.gecko.driver", "src/main/resources/firefoxdriver");
+                driver = new FirefoxDriver();
+                driver.manage().deleteAllCookies();
+            }else if(browser == CHROME){
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("chrome.switches","--disable-extensions");
+                System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
+                driver = new ChromeDriver();
+                driver.manage().deleteAllCookies();
+            }else{
+                throw new AssertionError("This browser is not supported (only firefox and chrome)");
+            }
+            //Dimension d = new Dimension(363,700);
+            //wd.manage().window().setSize(d);
+        }
+        web = new Web(driver);
+    }
+
     @Before
     public void beforeEachTest() throws IOException {
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, 10, 50);
-        driver.get(Url.AUTOMATION_PRACTICE_TEST.getValue());
-
         PrintWriter writer = new PrintWriter("logs/logFile.log");
         writer.print("");
         writer.close();
@@ -146,16 +162,7 @@ public class TestSetupUtils {
         logger.info(temp);
         logger.info(mult);
 
-        if (wd == null) {
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("chrome.switches","--disable-extensions");
-            System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
-            wd = new ChromeDriver();
-            wd.manage().deleteAllCookies();
-            Dimension d = new Dimension(363,700);
-            wd.manage().window().setSize(d);
-        }
-        Web web = new Web(driver);
+        driver.manage().deleteAllCookies();
     }
 
     @After
@@ -169,13 +176,17 @@ public class TestSetupUtils {
         logger.info(mult);
         logger.info(temp);
         logger.info(mult);
+    }
+
+    @AfterClass
+    public static void tearDown(){
         try {
             System.out.flush();
-            wd.quit();
+            driver.quit();
         } catch(NoSuchSessionException e) {
             fail("Not able to quit webdriverTests, crash?? : SessionNotFoundException " + e.toString());
         } catch(NullPointerException e){
-            System.out.println("AfterClass : Not able to quit webdriver : " + e.toString());
+            System.out.println("After Test : Not able to quit webdriver : " + e.toString());
         }
     }
 }

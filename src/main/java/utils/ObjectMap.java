@@ -13,8 +13,12 @@ public class ObjectMap {
     public static By getLocator(String logicalElementName) {
         LoadProperties lp = new LoadProperties("ui_elements.properties");
         String locator = lp.getPropValue(logicalElementName);
+        if(!locator.contains("->")){
+            throw new AssertionError("The ui element ("+locator+") in the property file is not correctly defined");
+        }
         String locatorType = locator.split("->")[0].toLowerCase();
-        String locatorValue = locator.split("->")[1].toLowerCase();
+        String locatorValue = locator.split("->")[1];
+
         switch(locatorType) {
             case "id" : return By.id(locatorValue);
             case "name" : return By.name(locatorValue);
