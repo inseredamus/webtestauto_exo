@@ -86,11 +86,13 @@ public class AccountCreationPageServices extends GeneralPageServices {
 
     private void typeAddressFirstname(String firstname) {
         logger.info(locationSymbol+"Type the firstname : "+firstname+" in address");
+        accountCreationPage.clearAddressFistname();
         accountCreationPage.typeAddressFirstname(firstname);
     }
 
     private void typeAddressLastname(String lastname) {
         logger.info(locationSymbol+"Type the lastname :  "+lastname+" in address");
+        accountCreationPage.clearAddressLastname();
         accountCreationPage.typeAddressLastname(lastname);
     }
 
@@ -106,6 +108,7 @@ public class AccountCreationPageServices extends GeneralPageServices {
 
     private void typeAddress2(String addr2) {
         logger.info(locationSymbol+"Type the address part 2 : "+addr2+" in address");
+        //useful for the ignored smoke test : the part 2 of the address is not displayed (not critical if avoided, that's a why try/catch)
         try{
             accountCreationPage.typeAddress2(addr2);
         }catch(ElementNotVisibleException e){
@@ -135,11 +138,13 @@ public class AccountCreationPageServices extends GeneralPageServices {
 
     private void typePhone(String phone) {
         logger.info(locationSymbol+"Type the phone : "+phone+" in address");
+        accountCreationPage.clearPhone();
         accountCreationPage.typePhone(phone);
     }
 
     private void typeMobilePhone(String mobilePhone) {
         logger.info(locationSymbol+"Type the mobile phone : "+mobilePhone+" in address");
+        accountCreationPage.clearMobilePhone();
         accountCreationPage.typeMobilePhone(mobilePhone);
     }
 
@@ -150,6 +155,7 @@ public class AccountCreationPageServices extends GeneralPageServices {
 
     private void typeAlias(String alias) {
         logger.info(locationSymbol+"Type the alias : "+alias+" in address");
+        accountCreationPage.clearAliasField();
         accountCreationPage.typeAlias(alias);
     }
 

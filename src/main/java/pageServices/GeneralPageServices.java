@@ -22,21 +22,6 @@ public class GeneralPageServices {
         return generalPage.isRightPageOpened(page);
     }
 
-    //we should avoid using Thread.sleep but sometimes for quick solutions,
-    //it's comfortable (definitively not correct) to have some precise delay services ;)
-
-    public void waitAwhile() {
-        generalPage.waitAwhile();
-    }
-
-    public void waitAwhile(int seconds) {
-        generalPage.waitAwhile(seconds);
-    }
-
-    public void waitAwhile(double seconds) {
-        generalPage.waitAwhile(seconds);
-    }
-
     public void openUrl(Page page) {
         logger.info(location+"Open the url of page : "+page.name());
         logger.info(location+"The url is : "+generalPage.openUrl(page));

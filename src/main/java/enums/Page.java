@@ -10,7 +10,6 @@ public enum Page {
     START_PAGE("Automation Practice Website","index","page.automation.practice.index.url"),
 
     //after clicking on 'sign in'
-
     AUTHENTICATION("AUTHENTICATION","authentication","page.authentication.url"),
 
     //after clicking on 'create an account'

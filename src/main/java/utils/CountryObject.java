@@ -1,10 +1,10 @@
 package utils;
 
 public class CountryObject {
-    public String info= "";
-    public String name = "";
-    public String alpha2code = "";
-    public String alpha3code = "";
+    public String info;
+    public String name;
+    public String alpha2code;
+    public String alpha3code;
 
     public CountryObject(String info, String name, String alpha2code, String alpha3code) {
         this.info = info;

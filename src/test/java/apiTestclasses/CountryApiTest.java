@@ -21,6 +21,13 @@ public class CountryApiTest extends BackendTestUtils {
 
     private static List<String> iso2Codes = new ArrayList<>();
 
+    /**
+     * For the 2 following tests :
+     *
+     * Get all countries and validate that US, DE and GB were returned in the response
+     * @throws IOException
+     */
+
     @Test
     public void are_all_countries_responses_code_200_Test() throws IOException {
         int responseAllCountriesCodeStatus = 0;
@@ -42,6 +49,7 @@ public class CountryApiTest extends BackendTestUtils {
         if(iso2Codes.size()==0){
             getIso2CodeList();
         }
+        testlogger.info("The found iso2Codes in the all-countries webservice are :");
         for(String iso : iso2Codes){
             testlogger.info(iso);
             Iterator<String> iter = isoToCheck.iterator();
@@ -59,6 +67,12 @@ public class CountryApiTest extends BackendTestUtils {
         CustomAssert.assertTrue("US, DE and GB are visible in the Iso2Code list",iso2Codes.contains("DE") && iso2Codes.contains("US") && iso2Codes.contains("GB"));
     }
 
+    /**
+     * for the 3 following tests :
+     *
+     * Get each country (US, DE and GB) individually and validate the response
+     * @throws IOException
+     */
     @Test
     public void is_US_response_code_200_Test() throws IOException {
         getResponseCodeIndividualCountry("US");
@@ -74,6 +88,10 @@ public class CountryApiTest extends BackendTestUtils {
         getResponseCodeIndividualCountry("GB");
     }
 
+    /**
+     * Try to get information for inexistent countries and validate the response
+     * @throws IOException
+     */
     @Test
     public void check_response_data_for_each_country_Test() throws IOException {
         if(iso2Codes.size()==0){
@@ -95,6 +113,20 @@ public class CountryApiTest extends BackendTestUtils {
         }
     }
 
+    /**
+     * This API has not a POST method at the moment, but it is being developed. Write a test that would validate new country addition using POST(it will not work now, but no worries).
+     * Example of json body for POST is below:
+     * {
+     * name: "Test Country",
+     * alpha2_code: "TC",
+     * alpha3_code: "TCY"
+     * }
+     *
+     * That's the reason why I have "@Ignore"d the test until the api exists.
+     *
+     * @throws IOException
+     */
+
     @Ignore
     @Test
     public void check_individual_country_TestCountry_Test() throws IOException {
@@ -113,6 +145,8 @@ public class CountryApiTest extends BackendTestUtils {
         CustomAssert.assertEqual("The alpha2code",data2.alpha2code,data.alpha2code);
         CustomAssert.assertEqual("The alpha3code",data2.alpha3code,data.alpha3code);
     }
+
+
 
     private CountryObject getIndividualCountryResult(String iso2code) throws IOException {
         String injected = webserviceFormat.replace("COUNTRY_ISO2CODE",iso2code);
@@ -145,6 +179,12 @@ public class CountryApiTest extends BackendTestUtils {
             }
         }
     }
+
+    /**
+     * You can notice in this method there are intern asserts for checking that the response is not null and the code status = 200.
+     * @param iso2code
+     * @throws IOException
+     */
 
     private void getResponseCodeIndividualCountry(String iso2code) throws IOException {
         String injected = webserviceFormat.replace("COUNTRY_ISO2CODE",iso2code);

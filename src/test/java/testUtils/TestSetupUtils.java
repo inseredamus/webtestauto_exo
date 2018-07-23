@@ -29,8 +29,6 @@ import static org.junit.Assert.fail;
 
 public class TestSetupUtils {
     private static Logger logger;
-    protected Logger testLogger = Logger.getLogger(TestSetupUtils.class);
-    protected String locationSymbolTest = "##### : ";
     private static String testInfo;
     private static int count = 0;
     protected static WebDriver driver;
@@ -134,8 +132,6 @@ public class TestSetupUtils {
             }else{
                 throw new AssertionError("This browser is not supported (only firefox and chrome)");
             }
-            //Dimension d = new Dimension(363,700);
-            //wd.manage().window().setSize(d);
         }
         web = new Web(driver);
     }

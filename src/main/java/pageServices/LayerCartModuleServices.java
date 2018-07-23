@@ -2,7 +2,6 @@ package pageServices;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-import pages.AddressesPage;
 import pages.LayerCartModule;
 
 public class LayerCartModuleServices extends GeneralPageServices{
@@ -13,10 +12,6 @@ public class LayerCartModuleServices extends GeneralPageServices{
         location = "LAYER CART";
         logger.info("@ "+location);
         layerCartModule = new LayerCartModule(driver);
-    }
-
-    public void waitLayerCartDisplayed() {
-        layerCartModule.waitLayerCartDisplayed();
     }
 
     public void clickOnProceedToCheckoutButton() {

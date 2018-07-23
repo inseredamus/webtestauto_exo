@@ -94,6 +94,8 @@ public class RegistrationAndLoginTest extends TestSetupUtils {
         CustomAssert.assertTrue("The firstname and Lastname are displayed correctly",myAccount.areExpectedFistnameAndLastnameDisplayed(user));
         CustomAssert.assertTrue("The Welcome information is displayed",myAccount.isWelcomeInfoPresent());
         CustomAssert.assertTrue("The current url is correctly built",myAccount.isCurrentUrlCorrectlyBuilt());
+
+        //if we want to add the logout function to the explorative test
         /*
         myAccount.clickOnLogoutButton();
         authentication = web.authentication();

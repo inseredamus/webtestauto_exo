@@ -86,9 +86,19 @@ public class AccountCreationPage extends GeneralPage {
         selectOption(ypi_birthday_y,year);
     }
 
+    public void clearAddressFistname(){
+        wait.waitForElement(addr_firstname,5);
+        driver.findElement(addr_firstname).clear();
+    }
+
     public void typeAddressFirstname(String firstname){
         wait.waitForElement(addr_firstname,5);
         driver.findElement(addr_firstname).sendKeys(firstname);
+    }
+
+    public void clearAddressLastname(){
+        wait.waitForElement(addr_lastname,5);
+        driver.findElement(addr_lastname).clear();
     }
 
     public void typeAddressLastname(String lastname){
@@ -131,9 +141,19 @@ public class AccountCreationPage extends GeneralPage {
         selectOption(addr_country,country);
     }
 
+    public void clearPhone(){
+        wait.waitForElement(addr_phone,5);
+        driver.findElement(addr_phone).clear();
+    }
+
     public void typePhone(String phone){
         wait.waitForElement(addr_phone,5);
         driver.findElement(addr_phone).sendKeys(phone);
+    }
+
+    public void clearMobilePhone(){
+        wait.waitForElement(addr_mobile,5);
+        driver.findElement(addr_mobile).clear();
     }
 
     public void typeMobilePhone(String mobilePhone){
@@ -144,6 +164,11 @@ public class AccountCreationPage extends GeneralPage {
     public void typeAdditionalInto(String additionalInfo){
         wait.waitForElement(addr_other,5);
         driver.findElement(addr_other).sendKeys(additionalInfo);
+    }
+
+    public void clearAliasField(){
+        wait.waitForElement(addr_alias,5);
+        driver.findElement(addr_alias).clear();
     }
 
     public void typeAlias(String alias){

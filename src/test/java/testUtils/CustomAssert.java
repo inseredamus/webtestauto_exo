@@ -2,9 +2,6 @@ package testUtils;
 
 import org.apache.log4j.Logger;
 
-import java.util.List;
-
-
 public class CustomAssert {
     private static Logger logger = Logger.getLogger(CustomAssert.class);
     private static String root = "||||| ASSERT : ";
@@ -30,37 +27,6 @@ public class CustomAssert {
 
     public static void assertTrue(String comparedObject, boolean actual) {
         if(!actual) {
-            logger.error(root+comparedObject+" :: IS INCORRECT");
-            throw new AssertionError(String.format("EXPECTED -> '%s', but it's incorrect (result is '%s')", comparedObject, actual));
-        }else{
-            logger.info(root+comparedObject+" AS EXPECTED");
-        }
-    }
-
-    public static void assertTrue(String comparedObject, boolean actual, String errors) {
-        if(!actual) {
-            logger.error(root+comparedObject+" :: IS INCORRECT");
-            throw new AssertionError(String.format("EXPECTED -> '%s', but it's incorrect (result is '%s'). \nThe errors are : "+errors, comparedObject, actual));
-        }else{
-            logger.info(root+comparedObject+" AS EXPECTED");
-        }
-    }
-
-    public static void assertTrue(String comparedObject, boolean actual, List<String> errors) {
-        if(!actual) {
-            String errorsFormat = "";
-            for(String er : errors){
-                errorsFormat = errorsFormat+"\n"+er;
-            }
-            logger.error(root+comparedObject+" :: IS INCORRECT");
-            throw new AssertionError(String.format("EXPECTED -> '%s', but it's incorrect (result is '%s'). \nThe errors are : "+errors, comparedObject, actual));
-        }else{
-            logger.info(root+comparedObject+" AS EXPECTED");
-        }
-    }
-
-    public static void assertFalse(String comparedObject, boolean actual) {
-        if(actual) {
             logger.error(root+comparedObject+" :: IS INCORRECT");
             throw new AssertionError(String.format("EXPECTED -> '%s', but it's incorrect (result is '%s')", comparedObject, actual));
         }else{

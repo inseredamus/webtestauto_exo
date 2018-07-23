@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 
 public class ObjectMap {
     /**
+     * @author inseredamus
      * @param logicalElementName : a String generally comes from a file : ui_elements.properties with the format : org.test.checkout.submit.button
      * @return By Element in the format : driver.findElement(By element).click()
      * @throws Exception
